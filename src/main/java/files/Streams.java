@@ -4,29 +4,57 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Streams {
     /**
      * Read from an InputStream until a quote character (") is found, then read
-     * until another quote character is found and return the bytes in between the two quotes.
-     * If no quote character was found return null, if only one, return the bytes from the quote to the end of the stream.
+     * until another quote character is found and return the bytes in between the
+     * two quotes.
+     * If no quote character was found return null, if only one, return the bytes
+     * from the quote to the end of the stream.
      *
      * @param in
-     * @return A list containing the bytes between the first occurrence of a quote character and the second.
+     * @return A list containing the bytes between the first occurrence of a quote
+     *         character and the second.
      */
     public static List<Byte> getQuoted(InputStream in) throws IOException {
-        // TODO: Implement
-        return null;
+        List<Byte> res = new ArrayList<>();
+        int currByte;
+
+        while ((currByte = in.read()) != -1 && currByte != '\"') {
+            // This way we are skipping all of the first chars until the first quote char
+        }
+
+        // If no quote char was found return null
+        if (currByte == -1) {
+            return null;
+        }
+
+        // Adding the chars to 'res' after the first quote char was founded,
+        // until the second quote char or until the end of the stream
+        while ((currByte = in.read()) != -1 && currByte != '\"') {
+            res.add((byte) currByte);
+        }
+
+        // if only one quote char was found return the bytes from the quote to the end
+        // of the stream
+        if (currByte == -1 && res.isEmpty()) {
+            return null;
+        }
+
+        return res;
     }
 
-
     /**
-     * Read from the input until a specific string is read, return the string read up to (not including) the endMark.
+     * Read from the input until a specific string is read, return the string read
+     * up to (not including) the endMark.
      *
      * @param in      the Reader to read from
      * @param endMark the string indicating to stop reading.
-     * @return The string read up to (not including) the endMark (if the endMark is not found, return up to the end of the stream).
+     * @return The string read up to (not including) the endMark (if the endMark is
+     *         not found, return up to the end of the stream).
      */
     public static String readUntil(Reader in, String endMark) throws IOException {
         // TODO: Implement
@@ -45,7 +73,8 @@ public class Streams {
     }
 
     /**
-     * Read a 40-bit (unsigned) integer from the stream and return it. The number is represented as five bytes,
+     * Read a 40-bit (unsigned) integer from the stream and return it. The number is
+     * represented as five bytes,
      * with the most-significant byte first.
      * If the stream ends before 5 bytes are read, return -1.
      *
