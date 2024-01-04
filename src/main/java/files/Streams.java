@@ -117,7 +117,21 @@ public class Streams {
      * @return the number read from the stream
      */
     public static long readNumber(InputStream in) throws IOException {
-        // TODO: Implement
-        return 0;
+        long res = 0;
+
+        // Read 5 bytes from the input stream
+        for (int i = 0; i < 5; i++) {
+            int byteVal = in.read();
+
+            // If the stream ends before 5 bytes were read then return -1.
+            if (byteVal == -1) {
+                return -1;
+            }
+
+            // Constract the (5*8) 40-bit integer by shifting bits
+            res = (res << 8) | (byteVal & 0xFF); // perform a bitwise AND operation, which clears all bits in 'byteVal'
+                                                 // except the lower 8 bits.
+        }
+        return res;
     }
 }
