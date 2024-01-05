@@ -86,24 +86,16 @@ public class Streams {
      * @param badByte
      */
     public static void filterOut(InputStream in, OutputStream out, byte badByte) throws IOException {
-        // Using try-with-resources to automatically close input and output streams
-        try (in; out) {
-            int currByte;
-            byte[] buffer = new byte[1024];
-
-            // Read from the input stream and write to output stream while ignoring
-            // occurrences of Badbyte
-            while ((currByte = in.read(buffer)) != -1) {
-                for (int i = 0; i < currByte; i++) {
-
-                    // Check if the byte is not equal to badByte, if so write to the output stream
-                    if (buffer[i] != badByte) {
-                        out.write(buffer[i]);
-                    }
-                }
-
+        int currByte;
+        // Read from the input stream until the end of the stream
+        while ((currByte = in.read()) != -1) {
+            // Check if the byte is not equal to badByte, if so write to the output stream
+            if ((byte) currByte != badByte) {
+                out.write(currByte);
             }
+            // Else, ignore thr currByte and don't write it to the output
         }
+        out.close();
     }
 
     /**
