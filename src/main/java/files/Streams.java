@@ -1,5 +1,6 @@
 package files;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -57,21 +58,19 @@ public class Streams {
      *         not found, return up to the end of the stream).
      */
     public static String readUntil(Reader in, String endMark) throws IOException {
+        // Stringbuiler to store the chars read
         StringBuilder res = new StringBuilder();
-        char[] buffer = new char[1024];// randomly chose 1024 (32*32=1024)
+        // BufferedReader for efficiant reading
+        BufferedReader buffer = new BufferedReader(in);
         int currChar;
 
-        // Read the chars from the Reader until the end of the stream
-        while ((currChar = in.read(buffer)) != -1) {
-            res.append(buffer, 0, currChar); // Append the chars to the 'res' Stringbuilder
+        // Read the chars until the end of the stream
+        while ((currChar = buffer.read()) != -1) {
+            res.append((char) currChar); // Append the chars to the 'res' Stringbuilder
 
-            // Check if the endMark is in the string
-            int endIndex = res.indexOf(endMark);
-
-            // If the end mark is found, return the substring up to the endMark (not
-            // including)
-            if (endIndex != -1) {
-                return res.substring(0, endIndex);
+            // Check if the endMark is in the recently read chars
+            if (res.toString().endsWith(endMark)) {
+                return res.substring(0, res.length() - endMark.length()); // Remove the endMark from res
             }
         }
 
