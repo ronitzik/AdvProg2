@@ -71,9 +71,9 @@ public abstract class PersistentDictionaryTest {
 	 * Generate an array of random strings.
 	 * 
 	 * @param numStrings
-	 *            number of strings in array
+	 *                   number of strings in array
 	 * @param maxLength
-	 *            maximum length of each string.
+	 *                   maximum length of each string.
 	 * @return
 	 */
 	String[] randomStrings(int numStrings, int maxLength) {
@@ -95,15 +95,15 @@ public abstract class PersistentDictionaryTest {
 	 * method is supported as a dictionary.
 	 * 
 	 * @param dict
-	 *            the dictionary to be filled
+	 *              the dictionary to be filled
 	 * @param words
-	 *            the array of words that will fill it
+	 *              the array of words that will fill it
 	 * @param defs
-	 *            the definitions corresponding to the words (must have the same
-	 *            length as words).
+	 *              the definitions corresponding to the words (must have the same
+	 *              length as words).
 	 * @throws Exception
-	 *             may throw a reflection-related exception if dict is not a
-	 *             valid dictionary or an IOException if dict.put does.
+	 *                   may throw a reflection-related exception if dict is not a
+	 *                   valid dictionary or an IOException if dict.put does.
 	 */
 	void fillMap(Object dict, String[] words, String[] defs) throws Exception {
 		Class<?> dictClass = dict.getClass();
@@ -288,7 +288,7 @@ public abstract class PersistentDictionaryTest {
 			// Persistence test
 			dict = getDictionary(dictFile);
 			dict.open();
-			
+
 			int numAddWords = rnd.nextInt(MAX_SIZE);
 			String[] addWords = randomStrings(numAddWords, MAX_LEN);
 			String[] addDefs = randomStrings(numAddWords, MAX_LEN);
@@ -394,7 +394,7 @@ public abstract class PersistentDictionaryTest {
 					dict.remove(word);
 				}
 			}
-				
+
 			dict.close();
 			dict = getDictionary(dictFile);
 			dict.open();
@@ -445,14 +445,13 @@ public abstract class PersistentDictionaryTest {
 		dictFile.delete();
 
 	}
-	
 
 	@Test
 	public void extendedCycleTest() throws Exception {
 		TreeMap<String, String> expected = new TreeMap<String, String>();
 		dictFile.delete();
 		PersistentDictionary dict = getDictionary(dictFile);
-		
+
 		for (int i = 0; i < NUM_EXTENDED; ++i) {
 			// Add some words
 			int numWords = rnd.nextInt(MAX_SIZE);
@@ -465,7 +464,7 @@ public abstract class PersistentDictionaryTest {
 			dict.close();
 			dict = getDictionary(dictFile);
 			dict.open();
-			
+
 			// Delete some words
 			for (String word : testWords) {
 				if (rnd.nextDouble() < 0.5) {
